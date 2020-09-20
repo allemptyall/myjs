@@ -12,7 +12,7 @@
 
     <h2>字符串操作</h2>
     <p id="stringOperate"></p>
-    <button onclick="strOperate()"> 字符串操作 </button>
+    <button onclick="strOperate()">字符串操作</button>
 
     <h2>数值操作</h2>
     <p id="valOperate"></p>
@@ -20,12 +20,17 @@
 
     <h2>逻辑判定</h2>
     <p>请输入 5 到 10 之间的数字：</p>
-    <input id="demo" type="text">
+    <input id="demo" type="text" />
     <button type="button" onclick="logicalDecison()">检测输入</button>
     <p id="logicalDecison"></p>
+
+    <h2>JSON处理</h2>
+    <p id="jsonOperate"></p>
+    <button onclick="jsonOperate()">转换JSON</button>
   </body>
 
-  <script>
+  <script >
+    "use strict";
     var person = {
       firstName: "Bill",
       lastName: "Gates",
@@ -47,79 +52,120 @@
       var txtLength = text.length;
 
       var indStr = "The full name of China is the People's Republic of China.";
-      var nPos = indStr.indexOf( "China" );
+      var nPos = indStr.indexOf("China");
 
       var strRep = "Welcome to xxx";
       strRep = strRep.replace(/xxx/g, "China");
 
-      var txtAry = "aaa;bbb;ccc";      
+      var txtAry = "aaa;bbb;ccc";
 
       var retString = text + " length: " + txtLength;
       retString += "<br/>index of China: " + nPos;
       retString += "<br/>" + indStr.substr(nPos, 20);
-      retString += "<br/>" + strRep;      
-      retString += "<br/>txtAry is array? " + Array.isArray( txtAry );
-      txtAry = txtAry.split(';');
+      retString += "<br/>" + strRep;
+      retString += "<br/>txtAry is array? " + Array.isArray(txtAry);
+      txtAry = txtAry.split(";");
       retString += "<br/>" + typeof txtAry;
       retString += "<br/>" + txtAry instanceof Array;
-      for( var i = 0; i < txtAry.length; i++ ) {
+      for (var i = 0; i < txtAry.length; i++) {
         retString += "<br/>" + txtAry[i];
       }
-      var fruits = [ 'Banana', "Orange", "Apple", "Mango" ];
-      retString += "<br/>" + fruits.join( '~' );
+      var fruits = ["Banana", "Orange", "Apple", "Mango"];
+      retString += "<br/>" + fruits.join("~");
       fruits.shift();
-      retString += "<br/>" + fruits.join( '~' );
+      retString += "<br/>" + fruits.join("~");
       fruits.unshift("Tomato");
-      retString += "<br/>" + fruits.join( '~' );
+      retString += "<br/>" + fruits.join("~");
       delete fruits[1];
-      retString += "<br/>length = " + fruits.length + fruits.join( '~' );
+      retString += "<br/>length = " + fruits.length + fruits.join("~");
       fruits.sort();
-      retString += "<br/>" + fruits.join( '~' );
+      retString += "<br/>" + fruits.join("~");
       fruits.reverse();
-      retString += "<br/>" + fruits.join( '~' );
-      var date = new Date( 2020, 8, 19 );
+      retString += "<br/>" + fruits.join("~");
+      var date = new Date(2020, 8, 19);
       retString += "<br/>" + date.toUTCString();
-      retString += "<br/>" + (date.getMonth()+1).toString() + " " + date.getDate() + " " + date.getFullYear();
-      retString += "<br/>" + Math.PI + " 8^2 " + Math.pow( 8, 2 );
-      retString += "<br/>" + Math.floor( Math.random() * 100 );
+      retString +=
+        "<br/>" +
+        (date.getMonth() + 1).toString() +
+        " " +
+        date.getDate() +
+        " " +
+        date.getFullYear();
+      retString += "<br/>" + Math.PI + " 8^2 " + Math.pow(8, 2);
+      retString += "<br/>" + Math.floor(Math.random() * 100);
 
       document.getElementById("stringOperate").innerHTML = retString;
+    }
+
+    function bin2dec(bin) {
+      return parseInt(bin, 2).toString(10);
     }
 
     function valOperate() {
       var i = 12345678.987654321;
       var retString = i.toString();
-      retString += "<br/>" + (100+23).valueOf();
-      retString += "<br/>" + Number( new Date("2020-09-19") );//毫秒数
-      retString += "<br/>" + parseFloat( "10.123 days" );
+      retString += "<br/>" + (100 + 23).valueOf();
+      retString += "<br/>" + Number(new Date("2020-09-19")); //毫秒数
+      retString += "<br/>" + parseFloat("10.123 days");
       retString += "<br/>" + Number.MAX_VALUE;
       var x = 6;
       retString += "<br/>" + x.MAX_VALUE;
-
+      retString += "<br/>" + bin2dec(1111);
       document.getElementById("valOperate").innerHTML = retString;
     }
 
     function logicalDecison() {
       var message = document.getElementById("logicalDecison");
       var x = document.getElementById("demo").value;
-      try { 
-        if(x == "")  throw "是空的";
-        if(isNaN(x)) throw "不是数字";
+      var validInput = true;
+      try {
+        if (x == "") {
+          validInput = false;
+          throw "是空的";
+        }
+        if (isNaN(x)) {
+          validInput = false;
+          throw "不是数字";
+        }
         x = Number(x);
-        if(x > 10)   throw "太大";
-        if(x < 5)  throw "太小";
-      }
-      catch(err) {
+        if (x > 10) {
+          validInput = false;
+          throw "太大";
+        }
+        if (x < 5) {
+          validInput = false;
+          throw "太小";
+        }
+      } catch (err) {
         message.innerHTML = "";
         message.innerHTML = "输入：" + err;
-      }
-      finally {
+      } finally {
         document.getElementById("demo").value = "";
-        if( err instanceof Object && String.length( err.message ) > 0 ) {
-          console.log( message.innerHTML );
+        console.log(typeof err);
+        //if( typeof err === "Object" && String.length( err.message ) > 0 ) {
+        if (validInput) {
+          if (message.innerHTML.search("输入") >= 0) message.innerHTML = "";
+          console.log(message.innerHTML);
           message.innerHTML += "<br/>" + x;
         }
       }
+    }
+
+    function jsonOperate() {
+      let obj = { name: "Bill", age: 62, city: "Seatle" };
+      let myJSON = JSON.stringify(obj);
+      var outPut = "";
+      if (typeof myJSON === "string") outPut += myJSON + "<br/>";
+
+      var text =
+        '{ "employees" : [' +
+        '{ "firstName":"Bill" , "lastName":"Gates" },' +
+        '{ "firstName":"Steve" , "lastName":"Jobs" },' +
+        '{ "firstName":"Alan" , "lastName":"Turing" } ]}';
+      var textJSON = JSON.parse(text);
+      outPut += JSON.stringify(textJSON, null, 4) + "<br/>";
+      //outPut += formatJson( textJSON ) + "<br/>";
+      document.getElementById("jsonOperate").innerHTML = outPut;
     }
   </script>
 </html>
