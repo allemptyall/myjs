@@ -6,8 +6,8 @@ function myFunction() {
     return 5 / 9 * (fahreheit  - 32);
   }
   document.getElementById("demo").innerHTML =
-  "段落被更改。\r\n" +
-  x_2 + " \r\ntype = " +
-  type + "\r\n温度：" +
+  "段落被更改。<br/>" +
+  x_2 + " <br/>type = " +
+  type + "<br/>温度：" +
   toCelsius( 90 );
 }
