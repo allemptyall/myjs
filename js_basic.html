@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h1>JavaScript 基础内容学习</h1>
+
+    <h2>JS对象</h2>
+    <p id="js_obj"></p>
+
+    <h2>HTML事件</h2>
+    <p id="html_event"></p>
+    <button onclick="getDate()">现在时间是？</button>
+
+    <h2>字符串操作</h2>
+    <p id="stringOperate"></p>
+    <button onclick="strOperate()"> 字符串操作 </button>
+
+    <h2>数值操作</h2>
+    <p id="valOperate"></p>
+    <button onclick="valOperate()">数值操作</button>
+
+    <h2>逻辑判定</h2>
+    <p>请输入 5 到 10 之间的数字：</p>
+    <input id="demo" type="text">
+    <button type="button" onclick="logicalDecison()">检测输入</button>
+    <p id="logicalDecison"></p>
+  </body>
+
+  <script>
+    var person = {
+      firstName: "Bill",
+      lastName: "Gates",
+      id: 678,
+      fullName: function () {
+        return this.firstName + " " + this.lastName;
+      },
+    };
+    document.getElementById("js_obj").innerHTML = person.fullName();
+
+    function getDate() {
+      if (document.getElementById("html_event").innerHTML === "")
+        document.getElementById("html_event").innerHTML = Date();
+      else document.getElementById("html_event").innerHTML = "";
+    }
+
+    function strOperate() {
+      var text = "Hello World";
+      var txtLength = text.length;
+
+      var indStr = "The full name of China is the People's Republic of China.";
+      var nPos = indStr.indexOf( "China" );
+
+      var strRep = "Welcome to xxx";
+      strRep = strRep.replace(/xxx/g, "China");
+
+      var txtAry = "aaa;bbb;ccc";      
+
+      var retString = text + " length: " + txtLength;
+      retString += "<br/>index of China: " + nPos;
+      retString += "<br/>" + indStr.substr(nPos, 20);
+      retString += "<br/>" + strRep;      
+      retString += "<br/>txtAry is array? " + Array.isArray( txtAry );
+      txtAry = txtAry.split(';');
+      retString += "<br/>" + typeof txtAry;
+      retString += "<br/>" + txtAry instanceof Array;
+      for( var i = 0; i < txtAry.length; i++ ) {
+        retString += "<br/>" + txtAry[i];
+      }
+      var fruits = [ 'Banana', "Orange", "Apple", "Mango" ];
+      retString += "<br/>" + fruits.join( '~' );
+      fruits.shift();
+      retString += "<br/>" + fruits.join( '~' );
+      fruits.unshift("Tomato");
+      retString += "<br/>" + fruits.join( '~' );
+      delete fruits[1];
+      retString += "<br/>length = " + fruits.length + fruits.join( '~' );
+      fruits.sort();
+      retString += "<br/>" + fruits.join( '~' );
+      fruits.reverse();
+      retString += "<br/>" + fruits.join( '~' );
+      var date = new Date( 2020, 8, 19 );
+      retString += "<br/>" + date.toUTCString();
+      retString += "<br/>" + (date.getMonth()+1).toString() + " " + date.getDate() + " " + date.getFullYear();
+      retString += "<br/>" + Math.PI + " 8^2 " + Math.pow( 8, 2 );
+      retString += "<br/>" + Math.floor( Math.random() * 100 );
+
+      document.getElementById("stringOperate").innerHTML = retString;
+    }
+
+    function valOperate() {
+      var i = 12345678.987654321;
+      var retString = i.toString();
+      retString += "<br/>" + (100+23).valueOf();
+      retString += "<br/>" + Number( new Date("2020-09-19") );//毫秒数
+      retString += "<br/>" + parseFloat( "10.123 days" );
+      retString += "<br/>" + Number.MAX_VALUE;
+      var x = 6;
+      retString += "<br/>" + x.MAX_VALUE;
+
+      document.getElementById("valOperate").innerHTML = retString;
+    }
+
+    function logicalDecison() {
+      var message = document.getElementById("logicalDecison");
+      var x = document.getElementById("demo").value;
+      try { 
+        if(x == "")  throw "是空的";
+        if(isNaN(x)) throw "不是数字";
+        x = Number(x);
+        if(x > 10)   throw "太大";
+        if(x < 5)  throw "太小";
+      }
+      catch(err) {
+        message.innerHTML = "";
+        message.innerHTML = "输入：" + err;
+      }
+      finally {
+        document.getElementById("demo").value = "";
+        if( err instanceof Object && String.length( err.message ) > 0 ) {
+          console.log( message.innerHTML );
+          message.innerHTML += "<br/>" + x;
+        }
+      }
+    }
+  </script>
+</html>
